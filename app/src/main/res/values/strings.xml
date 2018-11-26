@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">MobileSurveySystem</string>
     <string name="question_tag">Question</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>
