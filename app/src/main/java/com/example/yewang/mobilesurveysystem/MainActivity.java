@@ -26,6 +26,11 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "Group-project";
     private static final int LOG_IN_REQUEST = 0;
     private FirebaseDatabase database;
+    private String user;
+    private Button login;
+    private Button qrScan;
+    private Button viewSurveys;
+    private Button createSurvey;
 
 
     @Override
@@ -33,13 +38,58 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final Button login = findViewById(R.id.LogIn);
+        login = findViewById(R.id.log_in_button);
+        qrScan = findViewById(R.id.scan_qr_button);
+        viewSurveys = findViewById(R.id.view_survey_button);
+        createSurvey = findViewById(R.id.create_survey_button);
+
         login.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                Log.i(TAG, "LAUNCHING LOG_IN_REQUEST");
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-
                 startActivityForResult(intent, LOG_IN_REQUEST);
             }
         });
+
+        qrScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        viewSurveys.setVisibility(View.INVISIBLE);
+        viewSurveys.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
+        createSurvey.setVisibility(View.INVISIBLE);
+        createSurvey.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SurveryWizard.class);
+                startActivity(intent);
+            }
+        });
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == LOG_IN_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                user = data.getStringExtra("user");
+                viewSurveys.setVisibility(View.VISIBLE);
+                createSurvey.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//    }
 }

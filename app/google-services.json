@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "581104086532-fqlpa1h2po5p5nh9gm33gfim1567oeu4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.yewang.mobilesurveysystem",
+            "certificate_hash": "a209e47ebb29dbda8ce33f70048972216930d72a"
+          }
+        },
+        {
           "client_id": "581104086532-f2k07q7d3137eohm92in2ckgb61duclv.apps.googleusercontent.com",
           "client_type": 3
         }
