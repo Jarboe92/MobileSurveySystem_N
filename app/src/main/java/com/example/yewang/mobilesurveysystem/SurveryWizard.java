@@ -15,6 +15,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -25,6 +27,7 @@ public class SurveryWizard extends ListActivity {
     private static final String TAG = "Group-project";
     private static final int ADD_TODO_ITEM_REQUEST = 0;
     private FirebaseDatabase database;
+    private FirebaseAuth mAuth;
 
     WizardItemListAdapter mAdapter;
     @Override
@@ -33,6 +36,8 @@ public class SurveryWizard extends ListActivity {
 //        setContentView(R.layout.activity_survery_wizard);
 
         mAdapter = new WizardItemListAdapter(getApplicationContext());
+
+        mAuth = FirebaseAuth.getInstance();
 
 //        set footer and header
         getListView().setHeaderDividersEnabled(true);
@@ -82,12 +87,17 @@ public class SurveryWizard extends ListActivity {
                 String lat_string = lat.getText().toString();
                 String log_string = log.getText().toString();
 
+                Intent intent = getIntent();
+                String user = intent.getStringExtra("user");
+
                 String tmp_title = title.getText().toString();
                 int question_number =1;
 
 
                 for (WizardItem x : alldata ){
-                    databasebRef.child(lat_string+" , "+log_string).child(tmp_title).child(question_number+"").child(x.getQuestion())
+                    Log.i(TAG, "the user is: " + user);
+                    FirebaseUser test = mAuth.getCurrentUser();
+                    databasebRef.child(test.getUid()).child(lat_string+" , "+log_string).child(tmp_title).child(question_number+"").child(x.getQuestion())
                             .setValue(0);
 
 

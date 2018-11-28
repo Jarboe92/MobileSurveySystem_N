@@ -27,7 +27,7 @@ public class WizardItem {
     }
 
     public static void packageIntent(Intent intent, String question){
-        Log.i(TAG, "Puting extra : "+ question);
+        Log.i(TAG, "Putting extra : "+ question);
         intent.putExtra(WizardItem.QUESTION,question);
     }
 

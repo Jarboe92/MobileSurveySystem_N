@@ -17,6 +17,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -28,9 +30,11 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     private String user;
     private Button login;
+    private Button logout;
     private Button qrScan;
     private Button viewSurveys;
     private Button createSurvey;
+    private FirebaseAuth mAuth;
 
 
     @Override
@@ -38,7 +42,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mAuth = FirebaseAuth.getInstance();
+
         login = findViewById(R.id.log_in_button);
+        logout = findViewById(R.id.log_out_button);
         qrScan = findViewById(R.id.scan_qr_button);
         viewSurveys = findViewById(R.id.view_survey_button);
         createSurvey = findViewById(R.id.create_survey_button);
@@ -51,6 +58,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "Logging out current user");
+                mAuth.signOut();
+                viewSurveys.setVisibility(View.INVISIBLE);
+                createSurvey.setVisibility(View.INVISIBLE);
+                login.setVisibility(View.VISIBLE);
+                logout.setVisibility(View.INVISIBLE);
+
+            }
+        });
+
         qrScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,22 +79,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         viewSurveys.setVisibility(View.INVISIBLE);
-        viewSurveys.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
 
         createSurvey.setVisibility(View.INVISIBLE);
-        createSurvey.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SurveryWizard.class);
-                startActivity(intent);
-            }
-        });
     }
 
     @Override
@@ -82,14 +88,34 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == LOG_IN_REQUEST) {
             if (resultCode == RESULT_OK) {
                 user = data.getStringExtra("user");
+                login.setVisibility(View.INVISIBLE);
+                logout.setVisibility(View.VISIBLE);
                 viewSurveys.setVisibility(View.VISIBLE);
+                createSurvey.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MainActivity.this, SurveryWizard.class);
+                        intent.putExtra("user", user);
+                        Log.i(TAG, "the user logged in is: " + user);
+                        startActivity(intent);
+                    }
+                });
                 createSurvey.setVisibility(View.VISIBLE);
+                viewSurveys.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+
             }
         }
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //I think I have to do this to update what user is logged in
+        mAuth = FirebaseAuth.getInstance();
+    }
 }
