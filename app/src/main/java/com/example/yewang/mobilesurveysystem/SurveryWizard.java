@@ -98,7 +98,7 @@ public class SurveryWizard extends ListActivity {
                     Log.i(TAG, "the user is: " + user);
                     FirebaseUser test = mAuth.getCurrentUser();
                     databasebRef.child(test.getUid()).child(lat_string+" , "+log_string).child(tmp_title).child(question_number+"").child(x.getQuestion())
-                            .setValue(0);
+                            .setValue("0,0");
 
 
                     Log.i(TAG, "data: "+x.getQuestion());

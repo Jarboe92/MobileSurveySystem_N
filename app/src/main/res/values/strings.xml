@@ -21,4 +21,6 @@
     <string name="register">Register</string>
     <string name="create_survey">Create Survey</string>
     <string name="view_surveys">View Surveys</string>
+    <string name="add_new_question">Add new Question</string>
+    <string name="submit_survery">Submit Survery</string>
 </resources>
